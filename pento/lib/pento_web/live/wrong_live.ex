@@ -3,7 +3,7 @@ defmodule PentoWeb.WrongLive do
     "live.html"}
 
     def mount(_params, _session, socket) do
-        {:ok, assign(socket, score: 0, message: "Make a guess", time: DateTime.utc_now)}
+        {:ok, assign(socket, score: 0, message: "Make a guess", time: DateTime.utc_now, correct_guess: Enum.random(1..10) |> to_string())}
     end  
 
     def render(assigns) do
@@ -25,22 +25,36 @@ defmodule PentoWeb.WrongLive do
         """
     end 
 
-    def time() do
-        DateTime.utc_now |> to_string
-    end    
-
-    def handle_event("guess", %{"number" => guess}=data, socket)
-    do
-        message = "Your guess: #{guess}. Wrong. Guess again. "
-        score = socket.assigns.score - 1
-        time = DateTime.utc_now
+    def handle_event("guess",%{"number" => guess} = data, %{assigns: %{correct_guess: guess}} = socket)
+    do   
+            winning_message = "Your guess: #{guess} is SUPER CORRECT. WINNER!!!! "
+            score = socket.assigns.score + 1
+            time = DateTime.utc_now
 
         {
             :noreply,
             assign(
                 socket,
-                message: message,
+                message: winning_message,
                 score: score,
-                time: time)}
-    end                         
+                time: time,
+                )}
+    end
+
+    def handle_event("guess",%{"number" => guess}=data,%{assigns: %{correct_guess: correct_guess}} = socket)
+    do
+            losing_message = "Your guess: #{guess}. Wrong. Guess again. "
+            score = socket.assigns.score - 1
+            time = DateTime.utc_now
+
+        {
+            :noreply,
+            assign(
+                socket,
+                message: losing_message,
+                score: score,
+                time: time,
+                )}
+    end
+                           
 end    
