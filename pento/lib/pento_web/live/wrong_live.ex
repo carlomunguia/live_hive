@@ -42,7 +42,7 @@ defmodule PentoWeb.WrongLive do
                 socket,
                 message: winning_message,
                 score: score,
-                time: time,
+                time: time
         )}
     end
 
@@ -58,7 +58,7 @@ defmodule PentoWeb.WrongLive do
                 socket,
                 message: losing_message,
                 score: score,
-                time: time,
+                time: time
         )}
     end              
 end    
