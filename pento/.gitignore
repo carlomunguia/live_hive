@@ -32,3 +32,15 @@ pento-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+docker-compose.yml
+
+.DS_Store
+Thumbs.db
+
+/.elixir_ls
+
