@@ -2,13 +2,19 @@ defmodule PentoWeb.WrongLive do
     use Phoenix.LiveView, layout: {PentoWeb.LayoutView,
     "live.html"}
 
-    def mount(_params, _session, socket) do
+    alias Pento.Accounts
+
+    def mount(_params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
         {
-            :ok, assign(socket, 
-            score: 0, 
-            message: "Make a guess! ", 
-            time: DateTime.utc_now, 
-            system_guess: Enum.random(1..10) |> to_string()
+            :ok, 
+            assign(
+                socket, 
+                score: 0, 
+                message: "Make a guess! ", 
+                time: DateTime.utc_now, 
+                system_guess: Enum.random(1..10) |> to_string(),
+                session_id: session["live_socket_id"]
         )}
     end  
 
@@ -20,14 +26,14 @@ defmodule PentoWeb.WrongLive do
         </h2>
         <h2>
             <%= for n <- 1..10 do %>
-            <a href="#" phx-click="guess" phx-value-number= {n} > <%= n %></a>
-            <% end %>
+                <a href="#" phx-click="guess" phx-value-number= {n} > <%= n %></a>
+            <% end %>   
         </h2>
-
         <h2>
-            <%= @message %>
             It's <%= @time %>
         </h2>
+        
+        
         """
     end 
 
@@ -46,7 +52,7 @@ defmodule PentoWeb.WrongLive do
         )}
     end
 
-    def handle_event("guess",%{"number" => guess} = data, %{assigns: %{system_guess: system_guess}} = socket)
+    def handle_event("guess",%{"number" => guess}=data, %{assigns: %{system_guess: system_guess}} = socket)
     do
             losing_message = "Your guess: #{guess}. Wrong. Guess again. "
             score = socket.assigns.score - 1

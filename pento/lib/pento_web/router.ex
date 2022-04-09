@@ -21,7 +21,6 @@ defmodule PentoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    live "/guess", WrongLive
   end
 
   # Other scopes may use custom stacks.
@@ -75,6 +74,13 @@ defmodule PentoWeb.Router do
 
   scope "/", PentoWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live_session :default, on_mount: PentoWeb.UserAuthLive do
+      live "/guess", WrongLive
+    end  
+
+      
+
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
