@@ -32,12 +32,10 @@ defmodule PentoWeb.WrongLive do
         <h2>
             It's <%= @time %>
         </h2>
-        
-        
         """
     end 
 
-    def handle_event("guess",%{"number" => guess} = data, %{assigns: %{system_guess: guess}} = socket)
+    def handle_event("guess",%{"number" => guess}=data, %{assigns: %{system_guess: guess}} = socket)
     do   
             winning_message = "Your guess: #{guess} is SUPER CORRECT. WINNER!!!! "
             score = socket.assigns.score + 1
