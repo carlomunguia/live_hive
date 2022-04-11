@@ -5,5 +5,5 @@ defmodule Pento.Repo.Migrations.AddUsernameField do
     alter table("users") do
       add :username, :varchar
     end
-  end    
+  end
 end

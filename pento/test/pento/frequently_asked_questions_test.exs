@@ -35,7 +35,12 @@ defmodule Pento.FrequentlyAskedQuestionsTest do
 
     test "update_faq/2 with valid data updates the faq" do
       faq = faq_fixture()
-      update_attrs = %{answer: "some updated answer", question: "some updated question", vote_count: 43}
+
+      update_attrs = %{
+        answer: "some updated answer",
+        question: "some updated question",
+        vote_count: 43
+      }
 
       assert {:ok, %FAQ{} = faq} = FrequentlyAskedQuestions.update_faq(faq, update_attrs)
       assert faq.answer == "some updated answer"
@@ -45,7 +50,10 @@ defmodule Pento.FrequentlyAskedQuestionsTest do
 
     test "update_faq/2 with invalid data returns error changeset" do
       faq = faq_fixture()
-      assert {:error, %Ecto.Changeset{}} = FrequentlyAskedQuestions.update_faq(faq, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               FrequentlyAskedQuestions.update_faq(faq, @invalid_attrs)
+
       assert faq == FrequentlyAskedQuestions.get_faq!(faq.id)
     end
 

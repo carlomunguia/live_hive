@@ -14,7 +14,7 @@ defmodule Pento.Repo.Migrations.CreateUsersAuthTables do
     alter table(:users) do
       add :username, :string
       create unique_index(:users, [:username])
-    end  
+    end
 
     create unique_index(:users, [:email])
 

@@ -52,7 +52,6 @@ defmodule PentoWeb.Router do
   if Mix.env() == :dev do
     scope "/dev" do
       pipe_through :browser
-
     end
   end
 
@@ -90,9 +89,7 @@ defmodule PentoWeb.Router do
 
       live "/faqs/:id", FAQLive.Show, :show
       live "/faqs/:id/show/edit", FAQLive.Show, :edit
-
-
-    end  
+    end
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
