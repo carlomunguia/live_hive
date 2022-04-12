@@ -24,9 +24,25 @@
     <%= label f, :sku %>
     <%= number_input f, :sku %>
     <%= error_tag f, :sku %>
-  
+    <div phx-drop-target={ @uploads.image.ref }>
+      <%= label f, "Image" %>
+      <%= live_file_input @uploads.image %>
+    </div>
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
   </.form>
+  <p>Entries</p>
+  <%= for entry <- @uploads.image.entries do %>
+    <p>
+      <%= entry.client_name %> - <%= entry.progress %>%
+      <button phx-target="{ @myself }"
+      phx-click="cancel-upload" phx-value-ref="{ entry.ref }"> Cancel</button>
+    </p>
+  <% end %>
+  <p class="alert alert-info" role="alert"
+       phx_click="lv:clear-flash"
+       phx-value-key="info">
+       <%= live_flash(@flash, :info) %>
+  </p>         
 </div>
